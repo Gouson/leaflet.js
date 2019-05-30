@@ -2,6 +2,6 @@
 ### Leaflet.js  
 learning leaflet.js  
 ## 说明  
-** 记录学习leaflet.js的过程  
+* 记录学习leaflet.js的过程  
 ## 感激  
-** [leaflet](https://leafletjs.com/)  
+* [leaflet](https://leafletjs.com/)  
