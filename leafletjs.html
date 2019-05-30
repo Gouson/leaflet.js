@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+    <style>
+        #mapid {
+            height: 480px;
+        }
+    </style>
+    <title>leafletjs</title>
+</head>
+
+<body>
+    <div id="mapid">
+
+    </div>
+    <script>
+        //初始化地图，地理位置坐标以及缩放级别
+        let mymap = L.map('mapid').setView([51.505, -0.09], 13)
+        //加入瓦片图层,来自mapbox，配置token
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets', //可更其他的地图提供者
+            //id:'mapbox.satellite'   可更换任意类型的tile
+            accessToken: 'pk.eyJ1IjoiZ291c29uIiwiYSI6ImNqdzVyZ3M5MzBjaHozeW85ejA0aDliaHYifQ.rtplARpySRF6sDz7_f3i6w'
+        }).addTo(mymap);
+        //添加标记
+        let marker = L.marker([51.5, -0.09]).addTo(mymap)
+        //添加圆
+        let circle = L.circle([51.508, -0.11], {
+            color: 'green',
+            fillColor: 'yellow',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(mymap);
+        //添加多边形
+        let polygon = L.polygon([
+            [51.509, -0.08],
+            [51.503, -0.06],
+            [51.51, -0.047]
+        ]).addTo(mymap);
+        //添加弹出对象
+        marker.bindPopup('<b>this is a popup</b><br>hello world').openPopup(); //默认打开
+        circle.bindPopup('<b>this is a circle </b>')
+        polygon.bindPopup('<b>this is a polygon</b>')
+        //弹出窗口作用于图层
+        let popup1 = L.popup().setLatLng([51.5, -0.09]).setContent('i am a standalone popup').openOn(mymap)
+
+        //用户在地图上的点击事件
+        // function onMapClickClick(e){
+        //     alert('you clicked the map at '+e.latlng)
+        // }
+        mymap.on('click', onMapClickClick)
+
+        let popup = L.popup()
+
+        function onMapClickClick(e) {
+            popup.setLatLng(e.latlng).setContent('you clicked the map at' + e.latlng.toString()).openOn(mymap)
+        }
+    </script>
+</body>
+
+</html>
